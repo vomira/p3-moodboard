@@ -14,14 +14,22 @@ router.get('/newsapi', (req, res) => {
 }
 )
 
-router.get('/random', (req, res) => {
+router.get('/randomfact', (req, res) => {
   axios.get('https://uselessfacts.jsph.pl/random.json')
-  .then((random) => {
-    res.status(200).json(random.data);
+  .then((randomfact) => {
+    res.status(200).json(randomfact.data);
   })
   .catch(err => console.log(err))
 }
 )
+
+router.get('/joke', (req, res) => {
+  axios.get('https://official-joke-api.appspot.com/random_joke')
+  .then((joke) => {
+    res.status(200).json(joke.data);
+  })
+  .catch(err => console.log(err))
+})
 
 
 module.exports = router;
