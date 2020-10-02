@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import FactCard from "./content/FactCard";
 import JokeCard from './content/JokeCard';
 import NewsCard from "./content/NewsCard";
+// import { shuffle } from '../services/shuffle';
 import { Col, Container, Row } from 'shards-react';
 import axios from 'axios';
 
@@ -11,7 +12,7 @@ export default class Main extends Component {
   state = {
     articles: [],
     randomFacts: [],
-    jokes: []
+    jokes: [],
   }
 
 componentDidMount() {
@@ -33,7 +34,7 @@ componentDidMount() {
 
   getRandomFacts = () => {
     let factPromise = axios.get('/data/randomfact');
-    let arr = new Array(30).fill(factPromise);
+    let arr = new Array(20).fill(factPromise);
     Promise.all(arr)
     .then(facts => {
       let copy = [...this.state.randomFacts];
@@ -44,7 +45,7 @@ componentDidMount() {
 
   getJokes = () => {
     let jokePromise = axios.get('/data/joke');
-    let arr = new Array(30).fill(jokePromise);
+    let arr = new Array(20).fill(jokePromise);
     Promise.all(arr)
     .then(jokes => {
       let copy = [...this.state.jokes];
@@ -60,17 +61,42 @@ componentDidMount() {
     let facts = this.state.randomFacts.map(fact => <FactCard fact={fact} />);
     let jokes = this.state.jokes.map(joke => <JokeCard joke={joke} />);
   
+    let column1 = [];
+    let column2 = [];
+    let column3 = [];
+
+    // let contentTypes = shuffle([facts, jokes]);
+    
+    
+
+    // console.log(column1);
 
     if(this.state.randomFacts.length === 0) return <></>
+
+    // console.log(shuffle(contentTypes)[0][1]);
+
+    // for(let i = 0; i < this.state.articles.length; i++) {
+    //   column1.push(shuffle(contentTypes)[0][i]);
+    //   column2.push(shuffle(contentTypes)[1][i]);
+    //   column3.push(shuffle(contentTypes)[0][i]);
+    // }
+
+    for(let i = 0; i < this.state.articles.length; i+=3) {
+      column1.push(articles[i]);
+      column2.push(articles[i+1]);
+      column3.push(articles[i+2]);
+    }
+
+    console.log(column1);
+    console.log(column2);
+    console.log(column3);
+    
     return (
       <Container>
       <Row>
-      <Col style={{'height': 'fit-content', 'display':'flex', 'flex-direction': 'column'}} sm="12" lg="4">{articles[0]}{facts[0]}{jokes[0]}</Col>
-      <Col style={{'height': 'fit-content'}} sm="12" lg="4">{facts[1]}{jokes[1]}{articles[1]}</Col>
-      <Col style={{'height': 'fit-content'}} sm="12" lg="4">{jokes[2]}{articles[2]}{facts[2]}</Col>
-      {/* <Col sm="12" lg="4">{articles[1]}</Col>
-      <Col sm="12" lg="4">{facts[1]}</Col>
-      <Col sm="12" lg="4">{jokes[1]}</Col> */}
+      <Col style={{'height': 'fit-content', 'display':'flex', 'flexDirection': 'column'}} sm="12" lg="4">{column1}</Col>
+      <Col style={{'height': 'fit-content'}} sm="12" lg="4">{column2}</Col>
+      <Col style={{'height': 'fit-content'}} sm="12" lg="4">{column3}</Col>
       </Row>
       </Container>
 
