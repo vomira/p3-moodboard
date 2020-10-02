@@ -16,7 +16,7 @@ render() {
   let article = this.props.article;
   if(!article) {return <></>}
   return (
-        <Card>
+        <Card className='my-2' >
         <CardHeader>News {article.source.name}</CardHeader>
         <CardImg src={article.urlToImage} style={{'maxHeight': '200px'}}/>
         <CardBody>

@@ -40,11 +40,38 @@ export default class NewsPreferences extends Component {
 
 
   render() {
+
+  //   let newsCategories = ['general', 'technology', 'entertainment', 'science', 'sports', 'business'];
+
+  //   let newsCheckboxes = newsCategories.map(category => {
+  //       console.log(category);
+  //       this.state.newsSources.filter(source => source.category === category).map(newsSource => {
+  //         return(
+  //     <Container>
+  //     <Row>
+  //     <h6>{category}</h6>
+  //     </Row>
+  //     <Row>
+
+  //     <FormCheckbox
+  //         key={newsSource.id}
+  //         checked={this.state.selectedNewsSources.get(newsSource.name)}
+  //         onChange={e => this.handleChange(e, newsSource.name)}
+  //         className='m-2'
+  //       >
+  //         {newsSource.name}
+  //       </FormCheckbox>
+  //       </Row>
+  //       </Container>
+  //       )
+  // })})
+    
     if(this.state.newsSources.length === 0) return <></>
     return (
       <Container>
       <Container className='p3 m5'>
       <h4>Which news sources are you interested in?</h4>
+  
       <Row>
       <h6>General</h6>
       </Row>
@@ -63,6 +90,7 @@ export default class NewsPreferences extends Component {
     )
   })}
       </Row>
+
       <Row>
       <h6>Technology</h6>
       </Row>

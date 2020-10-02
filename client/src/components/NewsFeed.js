@@ -7,7 +7,7 @@ import { Col, Container, Row } from 'shards-react';
 import axios from 'axios';
 
 
-export default class Main extends Component {
+export default class NewsFeed extends Component {
 
   state = {
     articles: [],
@@ -57,7 +57,7 @@ componentDidMount() {
 
 
   render() {
-    let articles = this.state.articles.map(article => <NewsCard style={{'margin': '20px'}} article={article}/>);
+    let articles = this.state.articles.map(article => <NewsCard article={article}/>);
     let facts = this.state.randomFacts.map(fact => <FactCard fact={fact} />);
     let jokes = this.state.jokes.map(joke => <JokeCard joke={joke} />);
   
