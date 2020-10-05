@@ -10,7 +10,7 @@ import {
 } from "shards-react";
 import { Link } from "react-router-dom";
 import { signup } from "../../services/auth";
-import { signupFID } from '../../services/authFID';
+import { signupFID } from '../../services/auth';
 import Webcam from "./Webcam";
 
 export default class Signup extends Component {
@@ -38,11 +38,12 @@ export default class Signup extends Component {
     });
   };
 
+
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { username, password } = this.state;
-    if(!this.state.showWebcam) {
+    const { username, password, profileImg } = this.state;
+    // if(!this.state.showWebcam) {
       signup(username, password).then((data) => {
         if (data.message) {
           this.setState({
@@ -55,11 +56,22 @@ export default class Signup extends Component {
           this.props.setUser(data);
           this.props.history.push("/settings/lang");
         }
-      });
-    } else {
-
-    } 
-  };
+      })
+    // } else {
+    //   signupFID(username, profileImg)
+    //   .then((data) => {
+    //     if (data.message) {
+    //       this.setState({
+    //         username: "",
+    //         password: "",
+    //         message: data.message,
+    //       });
+    //     } else {
+    //       console.log({ data });
+    //       this.props.setUser(data);
+    //       this.props.history.push("/settings/lang");
+    //     }
+      };
 
   render() {
     return (

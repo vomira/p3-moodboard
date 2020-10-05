@@ -7,6 +7,15 @@ const signup = (username, password) => {
   .catch(err => err.response.data)
 };
 
+
+const signupFID = (username, profileImg) => {
+  return axios
+  .post('/auth/signupFID', {username, profileImg})
+  .then(response => response.data)
+  .catch(err => err.response.data)
+};
+
+
 const login = (username, password) => {
   return axios
   .post('/auth/login', {username, password})
@@ -15,10 +24,11 @@ const login = (username, password) => {
 };
 
 const logout = () => {
+  localStorage.clear();
   return axios
   .delete('/auth/logout')
   .then(response => response.data)
   .catch(err => err.response.data)
 };
 
-export { signup, login, logout };
+export { signup, signupFID, login, logout };

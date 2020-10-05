@@ -26,7 +26,6 @@ export default class Languages extends Component {
       languages: this.state.languages
     })
     .then(() => {
-      console.log('success!')
       this.props.history.push('/settings/news');
       this.setState({languages: []});
     })

@@ -12,7 +12,7 @@ const path         = require('path');
 const session = require("express-session");
 const passport = require("passport");
 
-require("./configs/passport.js");
+
 
 mongoose
   .connect('mongodb://localhost/p3-moodboard', {useNewUrlParser: true})
@@ -25,8 +25,7 @@ mongoose
 
 const MongoStore = require('connect-mongo')(session);
 
-const app_name = require('./package.json').name;
-const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
+
 
 const app = express();
 
@@ -50,6 +49,13 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+require("./configs/passport.js");
+
+const app_name = require('./package.json').name;
+const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
+
+
 // end of session configuration
 
 // Middleware Setup
@@ -84,9 +90,6 @@ app.use('/', index);
 
 const auth = require('./routes/auth');
 app.use('/auth', auth);
-
-const authFID = require('./routes/authFID');
-app.use('/authFID', authFID);
 
 const dataSources = require('./routes/dataSources');
 app.use('/data', dataSources);

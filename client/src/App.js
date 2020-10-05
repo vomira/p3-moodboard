@@ -81,7 +81,7 @@ class App extends Component {
         <Route 
           exact
           path="/moodboard"
-          component={NewsFeed}
+          render={props => <NewsFeed mood={this.state.mood} {...props} />}
         />
       
       </BrowserRouter>

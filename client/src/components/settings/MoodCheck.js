@@ -24,9 +24,11 @@ export default class MoodCheck extends Component {
     let moodScore = 0;
     this.state.selectedMoods.forEach(mood => moodScore += mood.score);
     if(moodScore < 0) {
-      this.props.setMood('bad')
+      this.props.setMood('bad');
+      window.localStorage.setItem('mood', 'bad');
     } else {
-      this.props.setMood('good')
+      this.props.setMood('good');
+      window.localStorage.setItem('mood', 'good');
     }
     
     this.props.history.push('/moodboard');

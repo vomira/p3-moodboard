@@ -27,7 +27,7 @@ export default class Goodies extends Component {
     })
     .then(() => {
       this.setState({goodies: []});
-      this.props.history.push('/moodboard');
+      this.props.history.push('/moodcheck');
     })
     .catch(err => console.log(err))
   }

@@ -8,7 +8,8 @@ export default class Homepage extends Component {
     return (
       <Container>
         <h1>Welcome to moodboard 🙂🙃</h1>
-        {typeof this.props.user !== 'undefined' ? 
+        <img src="../resources/logo.png" alt=""/>
+        {!this.props.user ? 
         <Container>
         <Button theme="primary"><Link to='/login'>Log In</Link></Button>
         <Button theme="primary"><Link to='/signup'>Sign Up</Link></Button>

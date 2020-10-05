@@ -1,11 +1,5 @@
 import axios from 'axios';
 
-const signupFID = (username, profileImg) => {
-  return axios
-  .post('/authFID/signup', {username, profileImg})
-  .then(response => response.data)
-  .catch(err => err.response.data)
-};
 
 // const loginFID = (username, ) => {
 //   return axios

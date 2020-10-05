@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Nav, Navbar, NavbarBrand, NavLink, NavItem } from 'shards-react';
 import { logout } from '../services/auth';
 
+
 const handleLogout = props => {
   logout()
   .then(() => {
