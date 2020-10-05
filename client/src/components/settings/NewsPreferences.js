@@ -1,15 +1,15 @@
 
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Button, Col, Container, FormCheckbox, Row } from "shards-react";
-import { Link } from 'react-router-dom';
+import { Button, Col, Container, Form, FormCheckbox, Row } from "shards-react";
+
 
 
 export default class NewsPreferences extends Component {
 
   state = {
     newsSources: [],
-    selectedNewsSources: new Map()
+    selectedNewsSources: []
   }
 
   componentDidMount = () => {
@@ -27,17 +27,29 @@ export default class NewsPreferences extends Component {
     .catch(err => console.log(err))
   }
 
-  handleChange(e, name) {
-      let isChecked;
-      let currentValue = this.state.selectedNewsSources.get(name)
-      if(currentValue === undefined) {
-        isChecked = true
-      } else {
-        isChecked = !currentValue
-      }
-      this.setState(prevState => ({ selectedNewsSources: prevState.selectedNewsSources.set(name, isChecked) }));
+  handleChange = (event) => {
+    let name = event.target.id;
+    let selected = this.state.selectedNewsSources.includes(name);
+    if(!selected) {
+      this.setState((state) => ({ selectedNewsSources: [...state.selectedNewsSources, name]}))
     }
+    if(selected) {
+      this.setState((state) => ({ selectedNewsSources: [...state.selectedNewsSources.filter(el => el !== name)]}))
+    }
+  }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    axios.put('/user/update', {
+      user: this.props.user,
+      newsPreferences: this.state.selectedNewsSources
+    })
+    .then(() => {
+      this.setState({selectedNewsSources: []});
+      this.props.history.push('/settings/goodies');
+    })
+    .catch(err => console.log(err))
+  }
 
   render() {
 
@@ -56,7 +68,7 @@ export default class NewsPreferences extends Component {
   //     <FormCheckbox
   //         key={newsSource.id}
   //         checked={this.state.selectedNewsSources.get(newsSource.name)}
-  //         onChange={e => this.handleChange(e, newsSource.name)}
+  //         onChange={this.handleChange}
   //         className='m-2'
   //       >
   //         {newsSource.name}
@@ -70,6 +82,7 @@ export default class NewsPreferences extends Component {
     return (
       <Container>
       <Container className='p3 m5'>
+      <Form onSubmit={this.handleSubmit}>
       <h4>Which news sources are you interested in?</h4>
   
       <Row>
@@ -80,9 +93,10 @@ export default class NewsPreferences extends Component {
     return (
 
       <FormCheckbox
+          id={newsSource.name}
           key={newsSource.id}
-          checked={this.state.selectedNewsSources.get(newsSource.name)}
-          onChange={e => this.handleChange(e, newsSource.name)}
+          checked={this.state.selectedNewsSources.includes(newsSource.name)}
+          onChange={this.handleChange}
           className='m-2'
         >
           {newsSource.name}
@@ -99,9 +113,10 @@ export default class NewsPreferences extends Component {
     return (
 
       <FormCheckbox
+          id={newsSource.name}
           key={newsSource.id}
-          checked={this.state.selectedNewsSources.get(newsSource.name)}
-          onChange={e => this.handleChange(e, newsSource.name)}
+          checked={this.state.selectedNewsSources.includes(newsSource.name)}
+          onChange={this.handleChange}
           className='m-2'
         >
           {newsSource.name}
@@ -117,9 +132,10 @@ export default class NewsPreferences extends Component {
     return (
 
       <FormCheckbox
+          id={newsSource.name}
           key={newsSource.id}
-          checked={this.state.selectedNewsSources.get(newsSource.name)}
-          onChange={e => this.handleChange(e, newsSource.name)}
+          checked={this.state.selectedNewsSources.includes(newsSource.name)}
+          onChange={this.handleChange}
           className='m-2'
         >
           {newsSource.name}
@@ -135,9 +151,10 @@ export default class NewsPreferences extends Component {
     return (
 
       <FormCheckbox
+          id={newsSource.name}
           key={newsSource.id}
-          checked={this.state.selectedNewsSources.get(newsSource.name)}
-          onChange={e => this.handleChange(e, newsSource.name)}
+          checked={this.state.selectedNewsSources.includes(newsSource.name)}
+          onChange={this.handleChange}
           className='m-2'
         >
           {newsSource.name}
@@ -153,9 +170,10 @@ export default class NewsPreferences extends Component {
     return (
 
       <FormCheckbox
+          id={newsSource.name}
           key={newsSource.id}
-          checked={this.state.selectedNewsSources.get(newsSource.name)}
-          onChange={e => this.handleChange(e, newsSource.name)}
+          checked={this.state.selectedNewsSources.includes(newsSource.name)}
+          onChange={this.handleChange}
           className='m-2'
         >
           {newsSource.name}
@@ -171,9 +189,10 @@ export default class NewsPreferences extends Component {
     return (
 
       <FormCheckbox
+          id={newsSource.name}
           key={newsSource.id}
-          checked={this.state.selectedNewsSources.get(newsSource.name)}
-          onChange={e => this.handleChange(e, newsSource.name)}
+          checked={this.state.selectedNewsSources.includes(newsSource.name)}
+          onChange={this.handleChange}
           className='m-2'
         >
           {newsSource.name}
@@ -182,8 +201,9 @@ export default class NewsPreferences extends Component {
   })}
       </Row>
       <Row>
-        <Button theme="secondary"><Link to='/settings/goodies'>Next</Link></Button>
+        <Button type="submit" theme="secondary">Next</Button>
         </Row>
+        </Form>
       </Container>
       </Container>
     )

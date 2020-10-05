@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   Alert,
   Button,
-  Collapse,
   Container,
   Form,
   FormInput,
@@ -10,8 +9,8 @@ import {
 } from "shards-react";
 import { Link } from "react-router-dom";
 import { signup } from "../../services/auth";
-import { signupFID } from '../../services/authFID';
-import Webcam from "./Webcam";
+import Webcam from './Webcam';
+
 
 export default class Signup extends Component {
   state = {
@@ -19,7 +18,7 @@ export default class Signup extends Component {
     password: "",
     message: "",
     profileImg: "",
-    showWebcam: true,
+    showWebcam: false,
   };
 
   toggleWebcam = () => {
@@ -42,23 +41,20 @@ export default class Signup extends Component {
     event.preventDefault();
 
     const { username, password } = this.state;
-    if(!this.state.showWebcam) {
-      signup(username, password).then((data) => {
-        if (data.message) {
-          this.setState({
-            username: "",
-            password: "",
-            message: data.message,
-          });
-        } else {
-          console.log({ data });
-          this.props.setUser(data);
-          this.props.history.push("/settings/lang");
-        }
-      });
-    } else {
 
-    } 
+    signup(username, password).then((data) => {
+      if (data.message) {
+        this.setState({
+          username: "",
+          password: "",
+          message: data.message,
+        });
+      } else {
+        console.log({ data });
+        this.props.setUser(data);
+        this.props.history.push("/settings/lang");
+      }
+    });
   };
 
   render() {
@@ -76,36 +72,27 @@ export default class Signup extends Component {
               onChange={this.handleChange}
             />
           </FormGroup>
-
-          <Collapse open={!this.state.showWebcam}>
-            <FormGroup>
-              <label htmlFor="password">Password</label>
-              <FormInput
-                type="password"
-                id="password"
-                placeholder="Password"
-                value={this.state.password}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-          </Collapse>
-          <Collapse open={this.state.showWebcam}>
-            <Webcam setUserImage={this.setUserImage} />
-          </Collapse>
-          <Button onClick={this.toggleWebcam}>
-            {this.state.showWebcam
-              ? "Sign Up with Password"
-              : "Sign Up with Face ID"}
-          </Button>
+          <FormGroup>
+            <label htmlFor="password">Password</label>
+            <FormInput
+              type="password"
+              id="password"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
           {this.state.message && (
             <Alert theme="warning">{this.state.message}</Alert>
           )}
-
+            <Webcam setUserImage={this.setUserImage}/>
           <Button type="submit">Sign Up</Button>
         </Form>
         <Button theme="primary">
           <Link to="/login">Already have an account? Log In</Link>
         </Button>
+
+       
       </Container>
     );
   }

@@ -8,6 +8,7 @@
     "dev-windows": "nodemon ./bin/www"
   },
   "dependencies": {
+    "aws-sdk": "^2.766.0",
     "axios": "^0.20.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
@@ -22,7 +23,8 @@
     "node-sass-middleware": "^0.11.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "nodemon": "^1.12.1"

@@ -3,47 +3,26 @@ import { Button, Container, Form, FormCheckbox, Row } from "shards-react";
 
 export default class MoodCheck extends Component {
   state = {
-    selectedMoods: new Map()
+    selectedMoods: []
   };
 
-  checkMood = (mood) => {
-    const moods = {
-      'Calm': 1,
-      'Angry': -2,
-      'Happy': 2,
-      'Frustrated': -2,
-      'Fearful': -2,
-      'Peaceful': 1,
-      'Anxious': -2,
-      'Sad': -2,
-      'Excited': 2,
-      'Depressed': -2,
-      'Optimistic': 2
-    }
-    return moods[mood]
-  }
 
-  handleChange = (event) => {
+  handleChange = (event, score) => {
     let name = event.target.id;
-    let isChecked;
-    let currentValue = this.state.selectedMoods.get(name);
-    if(currentValue === undefined) {
-      isChecked = true
-    } else {
-      isChecked = !currentValue
+    let selected = this.state.selectedMoods.some(el => el.name === name);
+    if(!selected) {
+      this.setState((state) => ({ selectedMoods: [...state.selectedMoods, {name, score}]}))
     }
-    this.setState(prevState => ({ selectedMoods: prevState.selectedMoods.set(name, isChecked) }));
+    if(selected) {
+      this.setState((state) => ({ selectedMoods: [...state.selectedMoods.filter(el => el.name !== name)]}))
+    }
   }
 
 
   handleSubmit = (event) => {
     event.preventDefault();
     let moodScore = 0;
-    for (let [mood, isChecked] of  this.state.selectedMoods.entries()) {
-      if(isChecked) {
-        moodScore += this.checkMood(mood);
-      }
-    }
+    this.state.selectedMoods.forEach(mood => moodScore += mood.score);
     if(moodScore < 0) {
       this.props.setMood('bad')
     } else {
@@ -79,7 +58,7 @@ export default class MoodCheck extends Component {
             <FormCheckbox inline
               key={mood.id}
               id={mood.name}
-              checked={this.state.selectedMoods.get(mood.name)}
+              checked={this.state.selectedMoods.some((el => el.name === mood.name))}
               onChange={(e) => this.handleChange(e, mood.score)}
               className="m-2"
             >

@@ -1,22 +1,35 @@
 import React, { Component } from "react";
-import { Button, Container, FormCheckbox, Row } from "shards-react";
-import { Link } from 'react-router-dom';
+import { Button, Container, Form, FormCheckbox, Row } from "shards-react";
+import axios from 'axios'
 
 export default class Goodies extends Component {
   state = {
-    goodies: new Map(),
+    goodies: [],
   };
 
 
-  handleChange(e, name) {
-    let isChecked;
-    let currentValue = this.state.goodies.get(name)
-    if(currentValue === undefined) {
-      isChecked = true
-    } else {
-      isChecked = !currentValue
+  handleChange = (event) => {
+    let name = event.target.id;
+    let selected = this.state.goodies.includes(name);
+    if(!selected) {
+      this.setState((state) => ({ goodies: [...state.goodies, name]}))
     }
-    this.setState(prevState => ({ goodies: prevState.goodies.set(name, isChecked) }));
+    if(selected) {
+      this.setState((state) => ({ goodies: [...state.goodies.filter(el => el !== name)]}))
+    }
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    axios.put('/user/update', {
+      user: this.props.user,
+      goodies: this.state.goodies
+    })
+    .then(() => {
+      this.setState({goodies: []});
+      this.props.history.push('/moodboard');
+    })
+    .catch(err => console.log(err))
   }
 
   render() {
@@ -33,12 +46,14 @@ export default class Goodies extends Component {
 
     return (
       <Container>
+      <Form onSubmit={this.handleSubmit}>
         <h4>What cheers you up if you are down?</h4>
         {goodies.map((goodie) => {
           return (
             <FormCheckbox inline
+              id={goodie.name}
               key={goodie.id}
-              checked={this.state.goodies.get(goodie.name)}
+              checked={this.state.goodies.includes(goodie.name)}
               onChange={(e) => this.handleChange(e, goodie.name)}
               className="m-2"
             >
@@ -48,8 +63,11 @@ export default class Goodies extends Component {
         })}
 
         <Row>
-        <Button theme="secondary"><Link to='/moodboard'>Next</Link></Button>
+        <Button type='submit' theme="secondary">
+        Next
+        </Button>
         </Row>
+        </Form>
       </Container>
     );
   }

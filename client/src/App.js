@@ -12,6 +12,7 @@ import NewsFeed from './components/NewsFeed';
 import NavBar from './components/NavBar.js';
 import NewsPreferences from './components/settings/NewsPreferences.js';
 import Signup from './components/auth/Signup';
+import SignupFID from './components/auth/SignupFID'
 
 
 class App extends Component {
@@ -40,7 +41,7 @@ class App extends Component {
         <Route 
           exact
           path="/"
-          component={Homepage}
+          render={props => <Homepage user={this.state.user} {...props} />}
         />
         <Route 
           exact
@@ -52,20 +53,25 @@ class App extends Component {
           path="/signup"
           render={props => <Signup setUser={this.setUser} {...props} />}
         />
+         {/* <Route 
+          exact
+          path="/signup/fid"
+          render={props => <SignupFID setUser={this.setUser} {...props} />}
+        /> */}
         <Route
           exact
           path="/settings/lang"
-          component={Languages}
+          render={props => <Languages user={this.state.user} {...props} />}
         />
         <Route
           exact
           path="/settings/news"
-          component={NewsPreferences}
+          render={props => <NewsPreferences user={this.state.user} {...props} />}
         />
         <Route 
           exact
           path="/settings/goodies"
-          component={Goodies}
+          render={props => <Goodies user={this.state.user} {...props} />}
         />
         <Route 
           exact
