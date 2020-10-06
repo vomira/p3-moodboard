@@ -3,7 +3,39 @@ const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
+const faceDetection = require("../faceid/clarifai/clarifai");
+const { compareFaces } = require("../faceid/aws/rekognition")
 
+
+router.post('/signupFID', (req, res) => {
+  const { username, profileImg } = req.body;
+
+  User.findOne({ username }, (err, user) => {
+    if (user !== null) return res.json({ message: "This username is already taken."})
+  });
+
+  noFaceDetected = () => {
+    return res.json({ message: "Sorry, there was no face detected in this photo."});
+  };
+
+  newUserSignUp = () => {
+    const newUser = new User({
+      username,
+      profileImg
+    });
+
+    newUser.save().then(user=>{
+      req.login(user,() => res.json(user))
+    })
+  }
+
+  faceDetection(profileImg)
+  .then(res => {
+    console.log(JSON.stringify(res));
+    if (res.outputs[0].data.regions[0].data.concepts[0].value < 0.9) return noFaceDetected();
+    if (res.outputs[0].data.regions[0].data.concepts[0].value > 0.9) return newUserSignUp();
+  })
+})
 
 router.post('/signup', (req, res) => {
   const { username, password } = req.body;
@@ -46,6 +78,35 @@ router.post('/signup', (req, res) => {
       res.json(err);
     });
 });
+
+router.post('/loginFID', (req, res) => {
+  const { username, loginImg } = req.body;
+  User.findOne({username})
+  .then(user => {
+    if(!user) {
+      res.json({ message: "This username does not exist"});
+    }
+
+    let sourceImg = user.profileImg.split(',')[1];
+    let refImg = loginImg.split(',')[1];
+
+    compareFaces(sourceImg, refImg)
+    .then(data => {
+      if (!data || !data.FaceMatches.length ) {
+        return res.json({ 
+          message: "Sorry, there aren't any faces in this photo that match the account holder." 
+        })
+      } else if (data.FaceMatches[0].Similarity > 95) {
+        console.log("face match successfully")
+        return req.login(user, () => res.json(user))
+      }
+    })
+    .catch(err => res.json({ message: "Sorry, that photo didn't come up as a match for the account holder."}))
+
+  })
+  .catch(err => console.log(err));
+})
+
 
 router.post('/login', (req, res) => {
   passport.authenticate('local', (err, user) => {

@@ -8,7 +8,7 @@ import {
 
 export default function JokeCard(props) {
   return (
-    <Card>
+    <Card className='my-2'>
       <CardHeader>Random Joke</CardHeader>
       <CardBody>
       <CardTitle>{props.joke.setup}</CardTitle>

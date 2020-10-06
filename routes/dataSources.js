@@ -51,15 +51,16 @@ router.get("/newsapi/:page", (req, res) => {
 router.get("/randomfact", (req, res) => {
   axios
     .get("https://uselessfacts.jsph.pl/random.json")
-    .then((randomfacts) => {
-      res.status(200).json(randomfacts);
+    .then((randomfact) => {
+      res.status(200).json(randomfact.data);
     })
     .catch((err) => console.log(err));
 });
 
-router.get("/joke", (req, res) => {
+router.get("/jokes", (req, res) => {
   axios
-    .get("https://official-joke-api.appspot.com/random_joke")
+    .get("https://official-joke-api.appspot.com/random_ten")
+    // .get("https://official-joke-api.appspot.com/random_joke")
     .then((joke) => {
       res.status(200).json(joke.data);
     })

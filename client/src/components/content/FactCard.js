@@ -8,7 +8,7 @@ import {
 
 export default function FactCard(props) {
   return (
-    <Card>
+    <Card className='my-2'>
       <CardHeader>Random Fact</CardHeader>
       <CardBody>
         <p>{props.fact.text}</p>

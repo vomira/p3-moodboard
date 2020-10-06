@@ -9,8 +9,7 @@ import {
   FormGroup,
 } from "shards-react";
 import { Link } from "react-router-dom";
-import { signup } from "../../services/auth";
-import { signupFID } from '../../services/auth';
+import { login, loginFID } from "../../services/auth";
 import Webcam from "./Webcam";
 
 export default class Signup extends Component {
@@ -18,7 +17,7 @@ export default class Signup extends Component {
     username: "",
     password: "",
     message: "",
-    profileImg: "",
+    loginImg: "",
     showWebcam: true,
   };
 
@@ -27,7 +26,7 @@ export default class Signup extends Component {
   };
 
   setUserImage = (img) => {
-    this.setState({ profileImg: img });
+    this.setState({ loginImg: img });
   };
 
   handleChange = (event) => {
@@ -42,28 +41,29 @@ export default class Signup extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { username, password, profileImg } = this.state;
+    const { username, password, loginImg } = this.state;
     if(!this.state.showWebcam) {
-      signup(username, password).then((data) => {
-        if (data.message) {
+      login(username, password)
+      .then(data => {
+        if(data.message) {
           this.setState({
-            username: "",
-            password: "",
-            message: data.message,
-          });
+            user: '',
+            password: '',
+            message: data.message
+          })
         } else {
-          console.log({ data });
           this.props.setUser(data);
-          this.props.history.push("/settings/lang");
+          this.props.history.push('/moodcheck')
         }
       })
+      .catch(err => console.log(err))
     } else {
-      signupFID(username, profileImg)
+      loginFID(username, loginImg)
       .then((data) => {
         if (data.message) {
           this.setState({
             username: "",
-            profileImg: "",
+            loginImg: "",
             message: data.message,
           });
         } else {
@@ -76,7 +76,7 @@ export default class Signup extends Component {
   render() {
     return (
       <Container>
-        <h2>Sign Up</h2>
+        <h2>Log In</h2>
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <label htmlFor="username">Username</label>
@@ -106,17 +106,17 @@ export default class Signup extends Component {
           </Collapse>
           <Button onClick={this.toggleWebcam}>
             {this.state.showWebcam
-              ? "Sign Up with Password"
-              : "Sign Up with Face ID"}
+              ? "Log In with Password"
+              : "Log In with Face ID"}
           </Button>
           {this.state.message && (
             <Alert theme="warning">{this.state.message}</Alert>
           )}
 
-          <Button type="submit">Sign Up</Button>
+          <Button type="submit">Log In</Button>
         </Form>
         <Button theme="primary">
-          <Link to="/login">Already have an account? Log In</Link>
+          <Link to="/login">Don't have an account yet? Sign Up!</Link>
         </Button>
       </Container>
     );

@@ -23,6 +23,13 @@ const login = (username, password) => {
   .catch(err => err.response.data)
 };
 
+const loginFID = (username, loginImg) => {
+  return axios
+  .post('/auth/loginFID', {username, loginImg})
+  .then(response => response.data)
+  .catch(err => err.response.data)
+}
+
 const logout = () => {
   localStorage.clear();
   return axios
@@ -31,4 +38,4 @@ const logout = () => {
   .catch(err => err.response.data)
 };
 
-export { signup, signupFID, login, logout };
+export { signup, signupFID, login, loginFID, logout };

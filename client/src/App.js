@@ -6,13 +6,15 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Goodies from './components/settings/Goodies';
 import Homepage from './components/Homepage';
 import Languages from './components/settings/Languages';
-import Login from './components/auth/LoginPW';
+import Login from './components/auth/LoginFID';
 import MoodCheck from './components/settings/MoodCheck';
 import NewsFeed from './components/NewsFeed';
 import NavBar from './components/NavBar.js';
 import NewsPreferences from './components/settings/NewsPreferences.js';
 import Signup from './components/auth/Signup';
-import SignupFID from './components/auth/SignupFID'
+import SignupFID from './components/auth/SignupFID';
+import TestFaceID from './components/auth/TestFaceId'
+
 
 
 class App extends Component {
@@ -53,11 +55,6 @@ class App extends Component {
           path="/signup"
           render={props => <Signup setUser={this.setUser} {...props} />}
         />
-         {/* <Route 
-          exact
-          path="/signup/fid"
-          render={props => <SignupFID setUser={this.setUser} {...props} />}
-        /> */}
         <Route
           exact
           path="/settings/lang"
@@ -82,6 +79,11 @@ class App extends Component {
           exact
           path="/moodboard"
           render={props => <NewsFeed mood={this.state.mood} {...props} />}
+        />
+        <Route 
+          exact
+          path="/testFID"
+          component={TestFaceID}
         />
       
       </BrowserRouter>
