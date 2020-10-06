@@ -4,7 +4,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const faceDetection = require("../faceid/clarifai/clarifai");
-const { compareFaces } = require("../faceid/aws/rekognition")
+const { analyzeFace, compareFaces } = require("../faceid/aws/rekognition")
 
 
 router.post('/signupFID', (req, res) => {
@@ -81,7 +81,8 @@ router.post('/signup', (req, res) => {
 
 router.post('/loginFID', (req, res) => {
   const { username, loginImg } = req.body;
-  User.findOne({username})
+  console.log(username);
+  User.findOne({username: username})
   .then(user => {
     if(!user) {
       res.json({ message: "This username does not exist"});
@@ -97,8 +98,25 @@ router.post('/loginFID', (req, res) => {
           message: "Sorry, there aren't any faces in this photo that match the account holder." 
         })
       } else if (data.FaceMatches[0].Similarity > 95) {
-        console.log("face match successfully")
-        return req.login(user, () => res.json(user))
+        console.log("face match successfully");
+        analyzeFace(refImg)
+        .then(data => {
+          data.FaceDetails.forEach(data => {
+            console.log("All other attributes:")
+            console.log(`  Smile.Value:            ${data.Smile.Value}`)
+            console.log(`  Smile.Confidence:       ${data.Smile.Confidence}`)
+            data.Emotions.forEach(emotion => {
+              console.log(`  Emotion.Type:       ${emotion.Type}`)
+              console.log(`  Emotion.Confidence: ${emotion.Confidence}`)
+            })
+            console.log(`  Confidence:             ${data.Confidence}`)
+            console.log("------------")
+            console.log("")
+          })
+          return req.login(user, () => res.json(user))
+        })
+        .catch(err => console.log(err))
+        
       }
     })
     .catch(err => res.json({ message: "Sorry, that photo didn't come up as a match for the account holder."}))

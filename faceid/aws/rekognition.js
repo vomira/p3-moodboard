@@ -32,6 +32,40 @@ return new Promise((resolve, reject) => {
 }
 )}
 
+const analyzeFace = (refImg) => {
+  const params = {
+    Image: {
+      Bytes: Buffer.from(refImg, 'base64')
+    },
+    Attributes: ['ALL']
+  }
+
+  return new Promise((resolve, reject) => {
+    rekognition.detectFaces(params, (err, data) => {
+      if(err) reject(err);
+      else resolve(data);
+    })
+  })
+
+  // client.detectFaces(params, function(err, response) {
+  //   if (err) {
+  //     console.log(err, err.stack); // an error occurred
+  //   } else {
+  //     response.FaceDetails.forEach(data => {
+  //       console.log("All other attributes:")
+  //       console.log(`  Smile.Value:            ${data.Smile.Value}`)
+  //       console.log(`  Smile.Confidence:       ${data.Smile.Confidence}`)
+  //       console.log(`  Emotions[0].Type:       ${data.Emotions[0].Type}`)
+  //       console.log(`  Emotions[0].Confidence: ${data.Emotions[0].Confidence}`)
+  //       console.log(`  Confidence:             ${data.Confidence}`)
+  //       console.log("------------")
+  //       console.log("")
+  //     }) // for response.faceDetails
+  //   } // if
+  // });
+
+}
+
 // rekognition.compareFaces(params, (err, data) => {
 //   console.log("AWS received request")
 //   if (err) return res.json({ message: "Sorry, that photo didn't come up as a match for the account holder."})
@@ -98,4 +132,4 @@ return new Promise((resolve, reject) => {
   
   // });
 
-module.exports = { compareFaces };
+module.exports = { analyzeFace, compareFaces };

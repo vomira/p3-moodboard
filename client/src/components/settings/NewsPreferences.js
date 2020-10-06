@@ -1,11 +1,19 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button, Col, Container, Form, FormCheckbox, Row } from "shards-react";
+import { Button, Col, Collapse, Container, Form, FormCheckbox, Row } from "shards-react";
 
 export default class NewsPreferences extends Component {
   state = {
     newsSources: [],
     selectedNewsSources: [],
+    showCategories: {
+      general: false,
+      technology: false,
+      entertainment: false,
+      science: false,
+      sports: false,
+      business: false,
+    }
   };
 
   componentDidMount = () => {
@@ -31,6 +39,18 @@ export default class NewsPreferences extends Component {
       })
       .catch((err) => console.log(err));
   };
+
+  toggleCollapse = (event) => {
+    event.preventDefault();
+    let name = event.target.id;
+    this.setState(prevState => ({
+      showCategories: {                   // object that we want to update
+          ...prevState.showCategories,    // keep all other key-value pairs
+          [name]: !prevState.showCategories[name]       // update the value of specific key
+      }
+  }))
+ }
+    
 
   handleChange = (event) => {
     let name = event.target.id;
@@ -78,8 +98,9 @@ export default class NewsPreferences extends Component {
       return (
         <Container>
           <Row>
-            <h6>{category}</h6>
+            <a href="#"><h6 id={category} onClick={this.toggleCollapse}>{category} ▼</h6></a>
           </Row>
+          <Collapse open={this.state.showCategories[category]}>
           <Row>
             {this.state.newsSources
               .filter((source) => source.category === category)
@@ -99,6 +120,7 @@ export default class NewsPreferences extends Component {
                 );
               })}
           </Row>
+          </Collapse>
         </Container>
       );
     });
