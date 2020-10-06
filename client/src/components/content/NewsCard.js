@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import './NewsCard.css'
 import {
   Card,
   CardHeader,
@@ -15,9 +16,9 @@ render() {
   let article = this.props.article;
   if(!article) {return <></>}
   return (
-        <Card>
+        <Card className='my-2' >
         <CardHeader>News {article.source.name}</CardHeader>
-        <CardImg src={article.urlToImage} />
+        <CardImg src={article.urlToImage} style={{'maxHeight': '200px'}}/>
         <CardBody>
           <CardTitle>{article.title}</CardTitle>
           <p>{article.description}</p>
