@@ -15,7 +15,8 @@ const passport = require("passport");
 
 
 mongoose
-  .connect('mongodb://localhost/p3-moodboard', {useNewUrlParser: true})
+mongoose
+.connect(process.env.MONGODB_URI || 'mongodb://localhost/p3-moodboard')
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -77,8 +78,8 @@ app.use(require('node-sass-middleware')({
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
+app.use(express.static(path.join(__dirname, "/client/build")));
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.png')));
 
 
 
@@ -99,6 +100,9 @@ app.use('/data', dataSources);
 const user = require('./routes/user');
 app.use('/user', user);
 
-
+app.use((req, res) => {
+  // If no routes match, send them the React HTML.
+  res.sendFile(__dirname + "/client/build/index.html");
+});
 
 module.exports = app;
