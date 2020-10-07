@@ -69,6 +69,7 @@ export default class Signup extends Component {
         } else {
           console.log({ data });
           this.props.setUser(data);
+          localStorage.setItem('mood', data.mood);
           this.props.history.push("/settings/lang");
         }
       })}}

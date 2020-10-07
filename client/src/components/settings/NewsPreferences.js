@@ -17,17 +17,11 @@ export default class NewsPreferences extends Component {
   };
 
   componentDidMount = () => {
-    let promises = [];
     let gbSources = axios.get("/data/newssources/en/gb");
     let usSources = axios.get("/data/newssources/en/us");
     let deSources = axios.get("/data/newssources/de/de");
-    if (this.props.user.languages.includes("EN")) {
-      promises.push(usSources, gbSources);
-    }
-    if (this.props.user.languages.includes("DE")) {
-      promises.push(deSources);
-    }
-    Promise.all(promises)
+
+    Promise.all([gbSources, usSources, deSources])
       .then((sources) => {
         let allSources = sources
           .map((source) => source.data)
