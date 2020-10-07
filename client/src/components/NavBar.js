@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Nav, Navbar, NavbarBrand, NavLink, NavItem } from 'shards-react';
 import { logout } from '../services/auth';
-
+import Logo from '../resources/logo_trans_cropped.png'
 
 const handleLogout = props => {
   logout()
@@ -12,9 +12,10 @@ const handleLogout = props => {
 
 export default function NavBar(props) {
     return (
-      <Navbar type="dark" theme="info" expand="md">
-      <NavbarBrand>Moodboard 🙂 🙃 </NavbarBrand>
-     
+      <Navbar className='primary d-flex' expand="sm">
+      <img src={Logo} className='nav-logo'/>
+      
+    
      
       {props.user ? 
         <Nav>

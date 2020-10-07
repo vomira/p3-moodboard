@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import FactCard from "./content/FactCard";
+import GifCard from './content/GifCard';
 import JokeCard from "./content/JokeCard";
 import NewsCard from "./content/NewsCard";
 import { Col, Container, Row } from "shards-react";
@@ -85,6 +86,9 @@ export default class NewsFeed extends Component {
       }
       if(item.type === 'fact') {
         element = <FactCard fact={item} />
+      }
+      if(item.type === 'gif') {
+        element = <GifCard gif={item} />
       }
       columns[(index%3+1)].push(element);
     })

@@ -34,7 +34,7 @@ export default class Goodies extends Component {
 
   render() {
     const goodies = [
-      { name: "Cute Animal Pictures", id: 1 },
+      { name: "Cute Animal Gifs", id: 1 },
       { name: "Meditation", id: 2 },
       { name: "Science Stuff", id: 3 },
       { name: "Poetry", id: 4 },
