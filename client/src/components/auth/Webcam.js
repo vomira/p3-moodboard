@@ -22,6 +22,7 @@ export default class Webcam extends Component {
     const screenshot = this.webcamRef.current.getScreenshot();
     this.setState({idImage: screenshot})
     this.props.setUserImage(screenshot);
+
   }
 
   render() {

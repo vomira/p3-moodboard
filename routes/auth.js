@@ -10,49 +10,50 @@ const { analyzeFace, compareFaces } = require("../faceid/aws/rekognition")
 router.post('/signupFID', (req, res) => {
   const { username, profileImg } = req.body;
 
-  User.findOne({ username }, (err, user) => {
-    if (user !== null) return res.json({ message: "This username is already taken."})
-  });
+  User.findOne({ username: username })
+  .then(user => {
+    if (user) {
+      return res
+        .status(400)
+        .json({ message: 'This username is already taken' });
+    }
+  
 
-  noFaceDetected = () => {
-    return res.json({ message: "Sorry, there was no face detected in this photo."});
-  };
+  if(!username) return res.status(400).json({ message: 'Your username cannot be empty'})
 
   faceDetection(profileImg)
-  .then(res => {
-    if (res.outputs[0].data.regions[0].data.concepts[0].value < 0.9) return noFaceDetected();
-    if (res.outputs[0].data.regions[0].data.concepts[0].value > 0.9) {
-      analyzeFace(profileImg)
-        .then(data => {
-          let negativeEmotions = ['SAD', 'CONFUSED', 'ANGRY', 'FEAR', 'DISGUSTED'];
-          let negativeScore = 0;
-          let happyScore = 0;
-          data.FaceDetails[0].Emotions.forEach(emotion => {
-            if(emotion.Type === 'HAPPY') {
-              happyScore += emotion.Confidence
-            } else if (emotion.Type !== 'CALM' && emotion.Type !== 'SURPRISED') {
-              negativeScore += emotion.Confidence
-            }
-
-          })
-          console.log(negativeScore, happyScore);
-          let mood = 'good'
-          if(negativeScore > 5) {
-            mood = 'bad'
+  .then(data => {
+    if (data.outputs[0].data.regions[0].data.concepts[0].value < 0.9) return res.json({ message: "Sorry, there was no face detected in this photo."});
+    if (data.outputs[0].data.regions[0].data.concepts[0].value >= 0.9) {
+      let b64Img = profileImg.split(',')[1];
+      analyzeFace(b64Img)
+      .then(data => {
+        let negativeScore = 0;
+        let happyScore = 0;
+        data.FaceDetails[0].Emotions.forEach(emotion => {
+          if(emotion.Type === 'HAPPY') {
+            happyScore += emotion.Confidence
+          } else if (emotion.Type !== 'CALM' && emotion.Type !== 'SURPRISED') {
+            negativeScore += emotion.Confidence
           }
 
-      const newUser = new User({
-        username,
-        profileImg
-      });
+        })
+        console.log(negativeScore, happyScore);
+        let mood = 'good'
+        if(negativeScore > 5) {
+          mood = 'bad'
+        }
+        // return res.json(mood);
+        User.create({ username: username, profileImg: profileImg }).then(user => {
   
-      newUser.save().then(user=>{
-        req.login(user,() => res.json(user, mood))
+          return req.login(user, () => res.json({user, mood}))
+          }
+        );
       })
-
-    })    
+    }
   })
 })
+});
 
 router.post('/signup', (req, res) => {
   const { username, password } = req.body;
@@ -98,7 +99,6 @@ router.post('/signup', (req, res) => {
 
 router.post('/loginFID', (req, res) => {
   const { username, loginImg } = req.body;
-  console.log(username);
   User.findOne({username: username})
   .then(user => {
     if(!user) {
