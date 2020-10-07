@@ -18,22 +18,39 @@ router.post('/signupFID', (req, res) => {
     return res.json({ message: "Sorry, there was no face detected in this photo."});
   };
 
-  newUserSignUp = () => {
-    const newUser = new User({
-      username,
-      profileImg
-    });
-
-    newUser.save().then(user=>{
-      req.login(user,() => res.json(user))
-    })
-  }
-
   faceDetection(profileImg)
   .then(res => {
-    console.log(JSON.stringify(res));
     if (res.outputs[0].data.regions[0].data.concepts[0].value < 0.9) return noFaceDetected();
-    if (res.outputs[0].data.regions[0].data.concepts[0].value > 0.9) return newUserSignUp();
+    if (res.outputs[0].data.regions[0].data.concepts[0].value > 0.9) {
+      analyzeFace(profileImg)
+        .then(data => {
+          let negativeEmotions = ['SAD', 'CONFUSED', 'ANGRY', 'FEAR', 'DISGUSTED'];
+          let negativeScore = 0;
+          let happyScore = 0;
+          data.FaceDetails[0].Emotions.forEach(emotion => {
+            if(emotion.Type === 'HAPPY') {
+              happyScore += emotion.Confidence
+            } else if (emotion.Type !== 'CALM' && emotion.Type !== 'SURPRISED') {
+              negativeScore += emotion.Confidence
+            }
+
+          })
+          console.log(negativeScore, happyScore);
+          let mood = 'good'
+          if(negativeScore > 5) {
+            mood = 'bad'
+          }
+
+      const newUser = new User({
+        username,
+        profileImg
+      });
+  
+      newUser.save().then(user=>{
+        req.login(user,() => res.json(user, mood))
+      })
+
+    })    
   })
 })
 
