@@ -28,6 +28,12 @@ router.put('/update', (req, res) => {
     })
 })
 
+router.get('/getUser', (req, res) => {
+  const userId = req.session.user._id;
+  User.findById(userId)
+  .then(user => res.status(200).json(user))
+  .catch(err => console.log(err));
+})
 
 
 

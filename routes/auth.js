@@ -101,19 +101,35 @@ router.post('/loginFID', (req, res) => {
         console.log("face match successfully");
         analyzeFace(refImg)
         .then(data => {
-          data.FaceDetails.forEach(data => {
-            console.log("All other attributes:")
-            console.log(`  Smile.Value:            ${data.Smile.Value}`)
-            console.log(`  Smile.Confidence:       ${data.Smile.Confidence}`)
-            data.Emotions.forEach(emotion => {
-              console.log(`  Emotion.Type:       ${emotion.Type}`)
-              console.log(`  Emotion.Confidence: ${emotion.Confidence}`)
-            })
-            console.log(`  Confidence:             ${data.Confidence}`)
-            console.log("------------")
-            console.log("")
+          let negativeEmotions = ['SAD', 'CONFUSED', 'ANGRY', 'FEAR', 'DISGUSTED'];
+          let negativeScore = 0;
+          let happyScore = 0;
+          data.FaceDetails[0].Emotions.forEach(emotion => {
+            if(emotion.Type === 'HAPPY') {
+              happyScore += emotion.Confidence
+            } else if (emotion.Type !== 'CALM' && emotion.Type !== 'SURPRISED') {
+              negativeScore += emotion.Confidence
+            }
+
           })
-          return req.login(user, () => res.json(user))
+          console.log(negativeScore, happyScore);
+          let mood = 'good'
+          if(negativeScore > 5) {
+            mood = 'bad'
+          }
+          // data.FaceDetails.forEach(data => {
+          //   console.log("All other attributes:")
+          //   console.log(`  Smile.Value:            ${data.Smile.Value}`)
+          //   console.log(`  Smile.Confidence:       ${data.Smile.Confidence}`)
+          //   data.Emotions.forEach(emotion => {
+          //     console.log(`  Emotion.Type:       ${emotion.Type}`)
+          //     console.log(`  Emotion.Confidence: ${emotion.Confidence}`)
+          //   })
+          //   console.log(`  Confidence:             ${data.Confidence}`)
+          //   console.log("------------")
+          //   console.log("")
+          // })
+          return req.login(user, () => res.json({user,mood}))
         })
         .catch(err => console.log(err))
         

@@ -48,7 +48,7 @@ class App extends Component {
         <Route 
           exact
           path="/login"
-          render={props => <Login setUser={this.setUser} {...props} />}
+          render={props => <Login setUser={this.setUser} setMood={this.setMood} {...props} />}
         />
         <Route 
           exact

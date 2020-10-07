@@ -1,22 +1,25 @@
 import React, { Component } from "react";
 import { Button, Container } from "shards-react";
 import Login from "./auth/LoginPW";
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import Logo from '../resources/logo_trans_cropped.png';
 
 export default class Homepage extends Component {
   render() {
     return (
-      <Container>
-        <h1>Welcome to moodboard 🙂🙃</h1>
-        <img src="../resources/logo.png" alt=""/>
+      <Container className='hp-c d-flex flex-column align-items-center justify-content-start' >
+        <Container className='logo-c m-4 d-flex flex-column justify-content-start align-items-center'>
+        <img src={Logo} className='hp-logo'/>
+        <h5>You don't have to tell us how you feel. We already know.</h5>
+        </Container>
         {!this.props.user ? 
-        <Container>
-        <Button theme="primary"><Link to='/login'>Log In</Link></Button>
-        <Button theme="primary"><Link to='/signup'>Sign Up</Link></Button>
+        <Container className='d-flex flex-row justify-content-center'>
+        <Button className='m-4' theme="secondary"><Link to='/login'>Log In</Link></Button>
+        <Button className='m-4' theme="secondary"><Link to='/signup'>Sign Up</Link></Button>
         </Container>
         :
-        <Container>
-        <Button theme="primary"><Link to='/moodboard'>Go to your feed</Link></Button>
+        <Container className='d-flex flex-row justify-content-center'>
+        <Button theme="secondary"><Link to='/moodboard'>Go to your feed</Link></Button>
   
         </Container>
         }

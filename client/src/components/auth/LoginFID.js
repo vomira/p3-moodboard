@@ -68,8 +68,9 @@ export default class Signup extends Component {
           });
         } else {
           console.log({ data });
-          this.props.setUser(data);
-          this.props.history.push("/settings/lang");
+          this.props.setUser(data.user);
+          localStorage.setItem('mood', data.mood);
+          this.props.history.push("/moodboard");
         }
       })}}
 

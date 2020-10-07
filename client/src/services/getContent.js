@@ -16,6 +16,7 @@ const getNews = (page) => {
 const getFact = () => {
  return axios.get('/data/randomfact')
   .then(fact => {
+    console.log(fact);
     console.log('fact received')
     fact.data.type = 'fact';
     return fact.data
@@ -31,8 +32,18 @@ const getJokes = () => {
   })
 }
 
+const getCuteGifs = () => {
+  return axios.get('/data/cutegifs')
+  .then(gifs => {
+    console.log(gifs)
+    return gifs.data.data.map(gif => ({'url': gif.images.fixed_height.url, 'type': 'gif'}))
+  })
+  .catch(err => console.log(err))
+}
+
 const getContent = () => {
-  let promises = [getJokes(), getFact()]
+ //get User and render according to goodie preferences
+  let promises = [getJokes(), getCuteGifs()]
   return Promise.all(promises)
   .then(promises => promises.flat())
 }

@@ -52,7 +52,7 @@ router.get("/randomfact", (req, res) => {
   axios
     .get("https://uselessfacts.jsph.pl/random.json")
     .then((randomfact) => {
-      res.status(200).json(randomfact.data);
+      res.status(200).json(randomfact);
     })
     .catch((err) => console.log(err));
 });
@@ -66,5 +66,21 @@ router.get("/jokes", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
+
+router.get("/philosophy", (req, res) => {
+  axios.get("http://philosophy-quotes-api.glitch.me/quotes")
+  .then((quote) => {
+    res.status(200).json(quote.data);
+  })
+  .catch((err) => console.log(err))
+})
+
+router.get("/cutegifs", (req, res) => {
+  axios.get(`https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_KEY}&q=cute&limit=25&offset=0&rating=g&lang=en`)
+  .then((gifs) => {
+    res.status(200).json(gifs.data);
+  })
+  .catch(err => console.log(err))
+})
 
 module.exports = router;
