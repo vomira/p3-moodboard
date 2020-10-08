@@ -4,8 +4,8 @@ const User = require('../models/User')
 
 
 router.put('/update', (req, res) => {
-  console.log(req.body);
-  const { user, languages, goodies, newsPreferences } = req.body;
+  const { user, languages, goodies, selectedNewsSources } = req.body;
+  console.log(selectedNewsSources);
   const update = {};
   if(languages) {
     update.languages = languages;
@@ -13,9 +13,11 @@ router.put('/update', (req, res) => {
   if(goodies) {
     update.goodies = goodies;
   }
-  if(newsPreferences) {
-    update.newsPreferences = newsPreferences
+  if(selectedNewsSources) {
+    update.newsPreferences = selectedNewsSources;
   }
+  console.log(update);
+  console.log(user._id)
   User.findByIdAndUpdate(
     user._id,
     update,

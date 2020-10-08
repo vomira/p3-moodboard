@@ -13,7 +13,7 @@ export default function FactCard(props) {
       <CardBody>
         <p>{props.fact.text}</p>
       </CardBody>
-      <CardFooter> <a target="_blank" rel="noopener noreferrer" href={props.fact.source_url}>Source: {props.fact.source}</a> </CardFooter>
+      {/* <CardFooter> <a className='card-link' target="_blank" rel="noopener noreferrer" href={props.fact.source_url}>Source: {props.fact.source}</a> </CardFooter> */}
     </Card>
   );
 }

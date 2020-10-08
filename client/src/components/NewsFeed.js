@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import AdviceCard from './content/AdviceCard';
 import FactCard from "./content/FactCard";
 import GifCard from './content/GifCard';
 import JokeCard from "./content/JokeCard";
@@ -20,7 +21,7 @@ export default class NewsFeed extends Component {
 
   componentDidMount = () => {
     if (window.localStorage.getItem("mood") === "good") {
-      getNews(this.state.numberOfUpdates)
+      getNews()
       .then((uniqueArticles) => {
         this.setState({
           content: [...this.state.content, ...uniqueArticles],
@@ -93,6 +94,9 @@ export default class NewsFeed extends Component {
       }
       if(item.type === 'philosophy') {
         element = <PhilosophyCard quote={item}/>
+      }
+      if(item.type === 'advice') {
+        element = <AdviceCard slip={item}/>
       }
       columns[(index%3+1)].push(element);
     })
