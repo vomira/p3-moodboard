@@ -23,8 +23,6 @@ router.get("/newsapi/:page", (req, res) => {
     .then((user) => {
       let prefStr = user.newsPreferences.join(",");
       let sources = prefStr;
-      console.log(prefStr);
-      console.log(page);
       let firstDate = moment().subtract(1, "weeks").format("YYYY-MM-DD");
       let today = moment().format("YYYY-MM-DD");
       axios

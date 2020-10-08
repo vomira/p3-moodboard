@@ -43,7 +43,7 @@ export default class Goodies extends Component {
       { name: "Poetry", id: 4 },
       { name: "Arts", id: 5 },
       { name: "Memes", id: 6 },
-      { name: "Music", id: 7 },
+      { name: "Philosophy", id: 7 },
       { name: "Food", id: 8 },
     ];
 

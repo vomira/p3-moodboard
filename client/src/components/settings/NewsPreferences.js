@@ -65,12 +65,14 @@ export default class NewsPreferences extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    console.log(this.props.user);
     axios
       .put("/user/update", {
-        user: this.props.user,
-        newsPreferences: this.state.selectedNewsSources,
+        user: this.props.user.user,
+        selectedNewsSources: this.state.selectedNewsSources,
       })
-      .then(() => {
+      .then((user) => {
+        console.log(user);
         this.setState({ selectedNewsSources: [] });
         this.props.history.push("/settings/goodies");
       })

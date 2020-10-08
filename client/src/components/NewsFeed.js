@@ -20,7 +20,7 @@ export default class NewsFeed extends Component {
 
   componentDidMount = () => {
     if (window.localStorage.getItem("mood") === "good") {
-      getNews(this.state.numberOfUpdates)
+      getNews()
       .then((uniqueArticles) => {
         this.setState({
           content: [...this.state.content, ...uniqueArticles],
