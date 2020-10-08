@@ -3,6 +3,7 @@ import FactCard from "./content/FactCard";
 import GifCard from './content/GifCard';
 import JokeCard from "./content/JokeCard";
 import NewsCard from "./content/NewsCard";
+import PhilosophyCard from './content/PhilosophyCard';
 import { Col, Container, Row } from "shards-react";
 import axios from "axios";
 import { shuffle } from '../services/shuffle';
@@ -89,6 +90,9 @@ export default class NewsFeed extends Component {
       }
       if(item.type === 'gif') {
         element = <GifCard gif={item} />
+      }
+      if(item.type === 'philosophy') {
+        element = <PhilosophyCard quote={item}/>
       }
       columns[(index%3+1)].push(element);
     })

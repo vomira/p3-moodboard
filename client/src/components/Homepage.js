@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Container } from "shards-react";
-import Login from "./auth/LoginPW";
+import Login from "./auth/Login";
 import { Link } from 'react-router-dom';
 import Logo from '../resources/logo_trans_cropped.png';
 
@@ -14,12 +14,12 @@ export default class Homepage extends Component {
         </Container>
         {!this.props.user ? 
         <Container className='d-flex flex-row justify-content-center'>
-        <Button className='m-4' theme="secondary"><Link to='/login'>Log In</Link></Button>
-        <Button className='m-4' theme="secondary"><Link to='/signup'>Sign Up</Link></Button>
+        <Button className='m-4' ><Link to='/login'>Log In</Link></Button>
+        <Button className='m-4' ><Link to='/signup'>Sign Up</Link></Button>
         </Container>
         :
         <Container className='d-flex flex-row justify-content-center'>
-        <Button theme="secondary"><Link to='/moodboard'>Go to your feed</Link></Button>
+        <Button className='m-4'><Link to='/moodboard'>Go to your feed</Link></Button>
   
         </Container>
         }

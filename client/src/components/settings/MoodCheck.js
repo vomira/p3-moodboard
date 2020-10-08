@@ -31,7 +31,7 @@ export default class MoodCheck extends Component {
       window.localStorage.setItem('mood', 'good');
     }
     
-    this.props.history.push('/moodboard');
+    this.props.history.push('/settings/news');
   }
 
   

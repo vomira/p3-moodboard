@@ -23,8 +23,8 @@ router.post('/signupFID', (req, res) => {
 
   faceDetection(profileImg)
   .then(data => {
-    if (data.outputs[0].data.regions[0].data.concepts[0].value < 0.9) return res.json({ message: "Sorry, there was no face detected in this photo."});
-    if (data.outputs[0].data.regions[0].data.concepts[0].value >= 0.9) {
+    if (data.outputs[0].data.regions[0].data.concepts[0].value < 0.95) return res.json({ message: "Sorry, there was no face detected in this photo."});
+    if (data.outputs[0].data.regions[0].data.concepts[0].value >= 0.95) {
       let b64Img = profileImg.split(',')[1];
       analyzeFace(b64Img)
       .then(data => {

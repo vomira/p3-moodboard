@@ -6,14 +6,12 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Goodies from './components/settings/Goodies';
 import Homepage from './components/Homepage';
 import Languages from './components/settings/Languages';
-import Login from './components/auth/LoginFID';
+import Login from './components/auth/Login';
 import MoodCheck from './components/settings/MoodCheck';
 import NewsFeed from './components/NewsFeed';
 import NavBar from './components/NavBar.js';
 import NewsPreferences from './components/settings/NewsPreferences.js';
 import Signup from './components/auth/Signup';
-import SignupFID from './components/auth/SignupFID';
-import TestFaceID from './components/auth/TestFaceId'
 
 
 
@@ -80,11 +78,7 @@ class App extends Component {
           path="/moodboard"
           render={props => <NewsFeed mood={this.state.mood} {...props} />}
         />
-        <Route 
-          exact
-          path="/testFID"
-          component={TestFaceID}
-        />
+  
       
       </BrowserRouter>
     );

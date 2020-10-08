@@ -11,9 +11,9 @@ html, body {
 }
 
 
-a, a:link, a:visited { 
-  color:black; 
-  text-decoration: none;
+a, a:link, a:visited, a:hover { 
+  color:white !important; 
+  text-decoration: none !important;
 }
 
 .primary {
@@ -22,17 +22,31 @@ a, a:link, a:visited {
 
 /* Navbar Styling */
 .nav-logo {
-  height: 10vh
+  height: 8vh
 }
 
 .nav-link {
-  font-size: 20px
+  font-size: 15px
 }
+
+.nav
 
 /* Homepage Styling */
 .hp-c {
   height: 100vh;
   width: 100vw
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  border-color: #9f95a1 !important;
+  background-color: #9f95a1 !important;
+  box-shadow: #9f95a1 !important;
+}
+
+.btn-info, .btn-info:hover, .btn-info:active, .btn-info:visited {
+  border-color: #f1a4a6 !important;
+  background-color: #f1a4a6 !important;
+  box-shadow: #f1a4a6 !important;
 }
 
 .logo-c {
@@ -41,6 +55,35 @@ a, a:link, a:visited {
 }
 
 .hp-logo {
-  height: 100%;
-  max-width: 100%
+  height: auto;
+  max-width: 400px
 }
+
+/* Auth Styling (Login & Signup) */
+
+.auth-form {
+  width: 100%;
+  height: auto
+}
+
+.webcam {
+  width: 100%;
+  max-width: 500px
+}
+
+
+.news-form {
+  width: 100%
+}
+
+.goodies-form {
+  width: 50%
+}
+
+
+/* Newsfeed Styling */
+/* 
+.card-footer a, a:visited {
+  color:#9f95a1; 
+  text-decoration: none;
+} */
