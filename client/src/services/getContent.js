@@ -36,14 +36,23 @@ const getCuteGifs = () => {
   return axios.get('/data/cutegifs')
   .then(gifs => {
     console.log(gifs)
-    return gifs.data.data.map(gif => ({'url': gif.images.fixed_height.url, 'type': 'gif'}))
+    return gifs.data.data.map(gif => ({'url': gif.images.original.url, 'type': 'gif'}))
   })
   .catch(err => console.log(err))
 }
 
+const getPhilosophy = () => {
+  return axios.get('/data/philosophy')
+  .then(quotes => {
+    console.log(quotes.data, 'quotes received');
+    quotes.data.map(quote => quote.type='philosophy')
+    return quotes.data
+  })
+}
+
 const getContent = () => {
  //get User and render according to goodie preferences
-  let promises = [getJokes(), getCuteGifs()]
+  let promises = [getJokes(), getCuteGifs(), getPhilosophy()]
   return Promise.all(promises)
   .then(promises => promises.flat())
 }

@@ -92,10 +92,13 @@ export default class NewsPreferences extends Component {
       return (
         <Container>
           <Row>
-            <a href="#"><h6 id={category} onClick={this.toggleCollapse}>{category} ▼</h6></a>
-          </Row>
+          <Col
+          sm="8"
+          lg="12"
+          className='d-flex justify-content-center align-items-center flex-wrap'>
+          <Button className='m-2' block id={category} onClick={this.toggleCollapse} theme='light'>{category}</Button>
+            {/* <a href="#"><h6 id={category} onClick={this.toggleCollapse}>{category} ▼</h6></a> */}
           <Collapse open={this.state.showCategories[category]}>
-          <Row>
             {this.state.newsSources
               .filter((source) => source.category === category)
               .map((newsSource) => {
@@ -108,13 +111,16 @@ export default class NewsPreferences extends Component {
                     )}
                     onChange={this.handleChange}
                     className="m-2"
+                    inline
                   >
                     {newsSource.name}
                   </FormCheckbox>
                 );
               })}
-          </Row>
+ 
           </Collapse>
+          </Col>
+          </Row>
         </Container>
       );
     });
@@ -122,15 +128,21 @@ export default class NewsPreferences extends Component {
   if(this.state.newsSources.length === 0) return (<></>)
   return (
           <Container>
-          <Container className='p3 m5'>
-          <Form onSubmit={this.handleSubmit}>
+          <Row>
+          <Col
+           sm="8"
+          lg="12"
+          className='my-4 d-flex flex-column justify-content-center align-items-center'
+          >
+          <Form className='news-form' onSubmit={this.handleSubmit}>
           <h4>Which news sources are you interested in?</h4>
          {newsContainer}
-         <Row>
-        <Button type="submit" theme="secondary">Next</Button>
-         </Row>
+         <Container className='d-flex justify-content-end'>
+        <Button className='m-4' type="submit" theme="primary">Next</Button>
+         </Container>
          </Form>
-       </Container>
+       </Col>
+       </Row>
        </Container>
   )
   

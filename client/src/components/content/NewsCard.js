@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import './NewsCard.css'
 import {
   Card,
   CardHeader,

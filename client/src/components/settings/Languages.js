@@ -58,7 +58,7 @@ export default class Languages extends Component {
         </Col>
         </Row>
         <Row>
-        <Button type='submit' theme="secondary">Next</Button>
+        <Button type='submit' theme="primary">Next</Button>
         </Row>
         </Form>
       </Container>
