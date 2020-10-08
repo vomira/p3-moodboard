@@ -82,8 +82,7 @@ a, a:link, a:visited, a:hover {
 
 
 /* Newsfeed Styling */
-/* 
-.card-footer a, a:visited {
-  color:#9f95a1; 
-  text-decoration: none;
-} */
+
+.card-link {
+  color: #9f95a1
+}

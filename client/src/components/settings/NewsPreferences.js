@@ -74,7 +74,7 @@ export default class NewsPreferences extends Component {
       .then((user) => {
         console.log(user);
         this.setState({ selectedNewsSources: [] });
-        this.props.history.push("/settings/goodies");
+        this.props.history.push("/moodboard");
       })
       .catch((err) => console.log(err));
   };

@@ -12,7 +12,7 @@ export default function GifCard(props) {
     <Card className='my-2'>
       <CardHeader>GIPHY</CardHeader>
       <CardImg src={props.gif.url} />
-      <CardFooter><a target="_blank" className='card-link' href={props.gif.url}>Source: GIPHY</a></CardFooter>
+      {/* <CardFooter><a target="_blank" className='card-link' href={props.gif.url}>Source: GIPHY</a></CardFooter> */}
     </Card>
   );
 }

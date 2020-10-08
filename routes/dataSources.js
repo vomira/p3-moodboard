@@ -48,12 +48,20 @@ router.get("/newsapi/:page", (req, res) => {
 
 router.get("/randomfact", (req, res) => {
   axios
-    .get("https://uselessfacts.jsph.pl/random.json")
+    .get('https://uselessfacts.jsph.pl/random.json')
     .then((randomfact) => {
-      res.status(200).json(randomfact);
+      res.status(200).json(randomfact.data);
     })
     .catch((err) => console.log(err));
 });
+
+router.get('/advice', (req, res) => {
+  axios.get('https://api.adviceslip.com/advice')
+  .then(advice => {
+    res.status(200).json(advice.data);
+  })
+  .catch(err => console.log(err))
+})
 
 router.get("/jokes", (req, res) => {
   axios
@@ -74,7 +82,15 @@ router.get("/philosophy", (req, res) => {
 })
 
 router.get("/cutegifs", (req, res) => {
-  axios.get(`https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_KEY}&q=cute&limit=25&offset=0&rating=g&lang=en`)
+  axios.get(`https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_KEY}&q=cute&limit=20&offset=0&rating=g&lang=en`)
+  .then((gifs) => {
+    res.status(200).json(gifs.data);
+  })
+  .catch(err => console.log(err))
+})
+
+router.get("/funnygifs", (req, res) => {
+  axios.get(`https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_KEY}&q=funny&limit=20&offset=0&rating=g&lang=en`)
   .then((gifs) => {
     res.status(200).json(gifs.data);
   })
