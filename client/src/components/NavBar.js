@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const handleLogout = props => {
   logout()
   .then(() => {
-    props.setUser(null);
+    props.setState(null);
     props.history.push('/');
   })
 }
