@@ -3,17 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import axios from 'axios'
+import axios from 'axios';
+import { BrowserRouter} from 'react-router-dom';
 
 axios.get('/auth/loggedin')
 .then(response => {
   const user = response.data;
   ReactDOM.render(
-    <React.StrictMode>
+    <BrowserRouter>
       <App user={user}/>
-    </React.StrictMode>,
+    </BrowserRouter>,
     document.getElementById('root')
-)})
+)
+})
 
 
 
