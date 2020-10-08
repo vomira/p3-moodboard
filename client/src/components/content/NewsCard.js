@@ -23,7 +23,6 @@ render() {
           <p>{article.description}</p>
           <Button theme='secondary'><a target="_blank" rel="noopener noreferrer" href={article.url}>Read More</a></Button>
         </CardBody>
-        <CardFooter>Favorite</CardFooter>
       </Card>
 
   );
