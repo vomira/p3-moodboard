@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Nav, Navbar, NavbarBrand, NavLink, NavItem } from 'shards-react';
 import { logout } from '../services/auth';
 import Logo from '../resources/logo_trans_cropped.png';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 const handleLogout = props => {
   logout()
   .then(() => {
     props.setState(null);
-    props.history.push('/');
+    //props.history.push('/');
+    return <Redirect to='/'/>
   })
 }
 
@@ -22,7 +23,7 @@ export default function NavBar(props) {
       {props.user ? 
         <Nav>
         <NavItem>
-          <NavLink onClick={() => handleLogout(props)}>Log Out</NavLink>
+          <NavLink href='#' onClick={() => handleLogout(props)}>Log Out</NavLink>
         </NavItem>
         </Nav> :
         <Nav>

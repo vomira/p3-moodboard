@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css"
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import Goodies from './components/settings/Goodies';
 import Homepage from './components/Homepage';
 import Languages from './components/settings/Languages';
@@ -36,8 +36,12 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
-        <NavBar user={this.state.user} setState={this.setUser}/>
+      <>
+      <NavBar 
+      user={this.state.user} 
+      setState={this.setUser}
+      />
+     
         <Route 
           exact
           path="/"
@@ -76,11 +80,17 @@ class App extends Component {
         <Route 
           exact
           path="/moodboard"
-          render={props => <NewsFeed mood={this.state.mood} {...props} />}
+          render={props => {
+            if (this.state.user) {
+              return <NewsFeed mood={this.state.mood} {...props} />
+            } else {
+              return <Redirect to="/" />;
+            }
+          }}
         />
   
+      </>
       
-      </BrowserRouter>
     );
   }
   
