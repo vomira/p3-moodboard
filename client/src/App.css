@@ -86,3 +86,9 @@ a, a:link, a:visited, a:hover {
 .card-link {
   color: #9f95a1
 }
+
+
+.loader-container {
+  width: 100vw;
+  max-width: 100%
+}
