@@ -1,4 +1,3 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## moodboard - giving you the content you feel like today
 ### https://p3moodboard.herokuapp.com/
