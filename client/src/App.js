@@ -82,7 +82,7 @@ class App extends Component {
           path="/moodboard"
           render={props => {
             if (this.state.user) {
-              return <NewsFeed mood={this.state.mood} {...props} />
+              return <NewsFeed mood={this.state.mood} user={this.state.user} {...props} />
             } else {
               return <Redirect to="/" />;
             }
