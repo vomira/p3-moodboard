@@ -9,7 +9,7 @@ import { Col, Container, Row } from "shards-react";
 import axios from "axios";
 import { shuffle } from "../services/shuffle";
 import { getContent, getNews } from "../services/getContent";
-import Loader from "../resources/loader.gif";
+import Loader from "../resources/loading.gif";
 
 export default class NewsFeed extends Component {
   state = {
@@ -88,7 +88,7 @@ export default class NewsFeed extends Component {
               md="12"
               lg="12"
             >
-              <img src={Loader} alt="loader-gif" />
+              <img className='loader-gif' src={Loader} alt="loader-gif" />
             </Col>
           </Row>
         </Container>
