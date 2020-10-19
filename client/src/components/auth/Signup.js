@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Alert,
   Button,
@@ -15,75 +16,48 @@ import { signup } from "../../services/auth";
 import { signupFID } from "../../services/auth";
 import WebCam from "react-webcam";
 
-export default class Signup extends Component {
-  constructor(props) {
-    super(props);
-    this.webcamRef = React.createRef();
-    this.state = {
-      username: "",
-    password: "",
-    message: "",
-    profileImg: "",
-    showWebcam: true,
-    }
-  }
+const Signup = ({setUser}) => {
+  const history = useHistory();
+  const webcamRef = useRef(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [showWebcam, setShowWebcam] = useState(true);
+  
 
 
-  toggleWebcam = () => {
-    this.setState((state) => ({ showWebcam: !state.showWebcam }));
-  };
-
-  setUserImage = (img) => {
-    this.setState({ profileImg: img });
-  };
-
-  handleChange = (event) => {
-    let name = event.target.id;
-    let value = event.target.value;
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  handleSubmit = (event) => {
+const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!this.state.showWebcam) {
-      const { username, password } = this.state;
+    if (!showWebcam) {
       signup(username, password).then((data) => {
         if (data.message) {
-          this.setState({
-            username: "",
-            password: "",
-            message: data.message,
-          });
+          setUsername("");
+          setPassword("");
+          setMessage(data.message);
         } else {
           console.log({ data });
-          this.props.setUser(data);
-          this.props.history.push("/moodcheck");
+          setUser(data);
+          history.push("/moodcheck");
         }
       });
     } else {
-      const profileImg = this.webcamRef.current.getScreenshot();
-      const { username } = this.state;
+      const profileImg = webcamRef.current.getScreenshot();
       signupFID(username, profileImg).then((data) => {
         if (data.message) {
-          this.setState({
-            username: "",
-            profileImg: "",
-            message: data.message,
-          });
+          setUsername("");
+          setPassword("");
+          setMessage(data.message);
         } else {
           console.log({ data });
-          this.props.setUser(data);
+          setUser(data);
           localStorage.setItem("mood", data.mood);
-          this.props.history.push("/settings/news");
+          history.push("/settings/news");
         }
       });
     }
   };
 
-  render() {
     return (
       <Container>
         <Row>
@@ -95,49 +69,49 @@ export default class Signup extends Component {
             <h4 className="m-4">Sign Up</h4>
             <Form
               className="auth-form d-flex flex-column align-items-center"
-              onSubmit={this.handleSubmit}
+              onSubmit={() => handleSubmit}
             >
               <FormGroup>
                 <FormInput
                   type="text"
                   id="username"
                   placeholder="Username"
-                  value={this.state.username}
-                  onChange={this.handleChange}
+                  value={username}
+                  onChange={e => setUsername(e.target.value)}
                 />
               </FormGroup>
 
-              <Collapse open={!this.state.showWebcam}>
+              <Collapse open={!showWebcam}>
                 <FormGroup>
                   <FormInput
                     type="password"
                     id="password"
                     placeholder="Password"
-                    value={this.state.password}
-                    onChange={this.handleChange}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
                   />
                 </FormGroup>
               </Collapse>
-              <Collapse open={this.state.showWebcam}>
+              <Collapse open={showWebcam}>
                 <Container>
                   <WebCam
                     audio={false}
-                    ref={this.webcamRef}
+                    ref={webcamRef}
                     screenshotFormat="image/png"
                     mirrored='true'
                     className="webcam"
                   />
                 </Container>
               </Collapse>
-              {this.state.message && (
-                  <Alert theme="warning">{this.state.message}</Alert>
+              {message && (
+                  <Alert theme="warning">{message}</Alert>
                 )}
               <Container className="d-flex flex-row justify-content-center">
                 <Button className="m-2" type="submit">
                   Sign Up
                 </Button>
-                <Button className="m-2" onClick={this.toggleWebcam}>
-                  {this.state.showWebcam
+                <Button className="m-2" onClick={() => setShowWebcam(!showWebcam)}>
+                  {showWebcam
                     ? "Sign Up with Password"
                     : "Sign Up with Face ID"}
                 </Button>
@@ -151,5 +125,6 @@ export default class Signup extends Component {
         </Row>
       </Container>
     );
-  }
 }
+
+export default Signup;
