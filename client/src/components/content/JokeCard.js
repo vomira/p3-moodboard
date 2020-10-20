@@ -6,14 +6,16 @@ import {
   CardTitle
 } from "shards-react";
 
-export default function JokeCard(props) {
+const JokeCard = ({joke}) => {
   return (
     <Card className='my-2'>
       <CardHeader>Random Joke</CardHeader>
       <CardBody>
-      <CardTitle>{props.joke.setup}</CardTitle>
-      <p>{props.joke.punchline}</p>
+      <CardTitle>{joke.setup}</CardTitle>
+      <p>{joke.punchline}</p>
       </CardBody>
     </Card>
   );
 }
+
+export default JokeCard;

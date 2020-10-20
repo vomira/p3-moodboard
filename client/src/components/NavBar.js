@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Nav, Navbar, NavbarBrand, NavLink, NavItem } from 'shards-react';
 import { logout } from '../services/auth';
 import Logo from '../resources/logo_trans_cropped.png';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 const handleLogout = props => {
   logout()
@@ -13,7 +13,7 @@ const handleLogout = props => {
   })
 }
 
-export default function NavBar(props) {
+const NavBar = (props) => {
     return (
       <Navbar className='primary d-flex' expand="sm">
       <img src={Logo} className='nav-logo'/>
@@ -41,3 +41,5 @@ export default function NavBar(props) {
       </Navbar>
     )
 }
+
+export default NavBar;
