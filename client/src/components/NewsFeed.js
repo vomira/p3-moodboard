@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import AdviceCard from "./content/AdviceCard";
 import FactCard from "./content/FactCard";
 import GifCard from "./content/GifCard";
@@ -10,62 +10,47 @@ import { shuffle } from "../services/shuffle";
 import { getContent, getNews } from "../services/getContent";
 import Loader from "../resources/loading.gif";
 
-export default class NewsFeed extends Component {
-  state = {
-    articles: [],
-    randomFacts: [],
-    jokes: [],
-    content: [],
-    numberOfUpdates: 1,
-  };
+const NewsFeed = () => {
 
-  componentDidMount = () => {
+  const [articles, setArticles] = useState([]);
+  const [randomFact, setRandomFacts] = useState([]);
+  const [jokes, setJokes] = useState([]);
+  const [content, setContent] = useState([]);
+  
+  useEffect(() => {
     if (window.localStorage.getItem("mood") === "good") {
       getNews().then((uniqueArticles) => {
-        this.setState({
-          content: [...this.state.content, ...uniqueArticles],
-        });
+        setContent([...content, ...uniqueArticles])
       });
-    }
 
     if (window.localStorage.getItem("mood") === "bad") {
-      console.log("bad mood");
-      getContent().then((newContent) => {
-        console.log(newContent);
-        shuffle(newContent);
-        this.setState((state) => ({
-          content: [...state.content, ...newContent],
-        }));
-      });
-    }
+        getContent().then((newContent) => {
+          shuffle(newContent);
+          setContent([...content, ...newContent])
+        });
+      }
+  }}
+  );
 
-    window.addEventListener("scroll", this.handleScroll, true);
-  };
-
-  componentWillUnmount = () => {
-    window.removeEventListener("scroll", this.handleScroll);
-  };
-
-  handleScroll = () => {
-    if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
-      console.log("You reached the bottom");
-    }
-  };
-
-  // handleFetching = () => {
-  //   if(window.localStorage.getItem('mood') === 'good') {
-  //     console.log('Fetching Triggered');
-  //     this.getNews(this.state.numberOfUpdates).then(() => {
-  //       this.setState((state) => ({
-  //         numberOfUpdates: state.numberOfUpdates + 1,
-  //        }));
-  //     }
-  //     )
+  // componentDidMount = () => {
+  //   if (window.localStorage.getItem("mood") === "good") {
+  //     getNews().then((uniqueArticles) => {
+  //       this.setState({
+  //         content: [...this.state.content, ...uniqueArticles],
+  //       });
+  //     });
   //   }
-  // }
 
-  render() {
-    let content = this.state.content;
+  //   if (window.localStorage.getItem("mood") === "bad") {
+  //     console.log("bad mood");
+  //     getContent().then((newContent) => {
+  //       console.log(newContent);
+  //       shuffle(newContent);
+  //       this.setState((state) => ({
+  //         content: [...state.content, ...newContent],
+  //       }));
+  //     });
+  //   }}
 
     let columns = {
       1: [],
@@ -92,7 +77,7 @@ export default class NewsFeed extends Component {
           </Row>
         </Container>
       );
-    }
+    } else {
 
     content.forEach((item, index) => {
       let element;
@@ -142,4 +127,6 @@ export default class NewsFeed extends Component {
       </Container>
     );
   }
-}
+  };
+
+export default NewsFeed;
