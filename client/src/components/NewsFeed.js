@@ -32,26 +32,6 @@ const NewsFeed = () => {
   }}
   );
 
-  // componentDidMount = () => {
-  //   if (window.localStorage.getItem("mood") === "good") {
-  //     getNews().then((uniqueArticles) => {
-  //       this.setState({
-  //         content: [...this.state.content, ...uniqueArticles],
-  //       });
-  //     });
-  //   }
-
-  //   if (window.localStorage.getItem("mood") === "bad") {
-  //     console.log("bad mood");
-  //     getContent().then((newContent) => {
-  //       console.log(newContent);
-  //       shuffle(newContent);
-  //       this.setState((state) => ({
-  //         content: [...state.content, ...newContent],
-  //       }));
-  //     });
-  //   }}
-
     let columns = {
       1: [],
       2: [],
