@@ -6,59 +6,80 @@ import JokeCard from "./content/JokeCard";
 import NewsCard from "./content/NewsCard";
 import PhilosophyCard from "./content/PhilosophyCard";
 import { Col, Container, Row } from "shards-react";
+import { Spinner } from 'react-bootstrap';
 import { shuffle } from "../services/shuffle";
 import { getContent, getNews } from "../services/getContent";
 import Loader from "../resources/loading.gif";
 
 const NewsFeed = () => {
-
-  const [articles, setArticles] = useState([]);
-  const [randomFact, setRandomFacts] = useState([]);
-  const [jokes, setJokes] = useState([]);
   const [content, setContent] = useState([]);
-  
+  const [isFetching, setIsFetching] = useState(false);
+
   useEffect(() => {
+    fetchContent();
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!isFetching) return;
+    fetchContent();
+  }, [isFetching]);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+      document.documentElement.offsetHeight
+    )
+      return;
+    setIsFetching(true);
+  };
+
+  const fetchContent = () => {
     if (window.localStorage.getItem("mood") === "good") {
       getNews().then((uniqueArticles) => {
-        setContent([...content, ...uniqueArticles])
+        setContent([...content, ...uniqueArticles]);
+        setIsFetching(false);
       });
+    }
 
     if (window.localStorage.getItem("mood") === "bad") {
-        getContent().then((newContent) => {
-          shuffle(newContent);
-          setContent([...content, ...newContent])
-        });
-      }
-  }}
-  );
+      getContent().then((newContent) => {
+        shuffle(newContent);
+        setContent([...content, ...newContent]);
+        setIsFetching(false);
+      });
+    }
+  };
 
-    let columns = {
-      1: [],
-      2: [],
-      3: [],
-    };
+  let columns = {
+    1: [],
+    2: [],
+    3: [],
+  };
 
-    if (content.length === 0) {
-      return (
-        <Container className="loader-container">
-          <Row>
-            <Col
-              style={{
-                height: "fit-content",
-                display: "flex",
-                flexDirection: "column",
-              }}
-              sm="12"
-              md="12"
-              lg="12"
-            >
-              <img className='loader-gif' src={Loader} alt="loader-gif" />
-            </Col>
-          </Row>
-        </Container>
-      );
-    } else {
-
+  if (content.length === 0) {
+    return (
+      <Container className="loader-container">
+        <Row>
+          <Col
+          className='d-flex flex-column align-items-center justify-content-center'
+            style={{
+              height: '100vh',
+            }}
+            sm="12"
+            md="12"
+            lg="12"
+          >
+            <Spinner animation="border" role="status" variant='danger'>
+              <span className="sr-only">Loading...</span>
+            </Spinner>
+          </Col>
+        </Row>
+      </Container>
+    );
+  } else {
     content.forEach((item, index) => {
       let element;
       if (item.type === "news") {
@@ -103,10 +124,25 @@ const NewsFeed = () => {
           <Col style={{ height: "fit-content" }} sm="12" md="6" lg="4">
             {columns["3"]}
           </Col>
+          {isFetching && (
+            <Col
+          className='d-flex flex-column align-items-center justify-content-center'
+            style={{
+              height: 'fit-content',
+            }}
+            sm="12"
+            md="12"
+            lg="12"
+          >
+            <Spinner animation="border" role="status" variant='danger'>
+              <span className="sr-only">Loading...</span>
+            </Spinner>
+          </Col>
+          )}
         </Row>
       </Container>
     );
   }
-  };
+};
 
 export default NewsFeed;
