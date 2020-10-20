@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { useHistory } from "react-router-dom";
 import {
   Alert,
   Button,
@@ -16,8 +15,7 @@ import { signup } from "../../services/auth";
 import { signupFID } from "../../services/auth";
 import WebCam from "react-webcam";
 
-const Signup = ({setUser}) => {
-  const history = useHistory();
+const Signup = (props) => {
   const webcamRef = useRef(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -27,8 +25,8 @@ const Signup = ({setUser}) => {
 
 
 const handleSubmit = (event) => {
-    event.preventDefault();
 
+    event.preventDefault();
     if (!showWebcam) {
       signup(username, password).then((data) => {
         if (data.message) {
@@ -37,8 +35,8 @@ const handleSubmit = (event) => {
           setMessage(data.message);
         } else {
           console.log({ data });
-          setUser(data);
-          history.push("/moodcheck");
+          props.setUser(data);
+          props.history.push("/moodcheck");
         }
       });
     } else {
@@ -50,9 +48,9 @@ const handleSubmit = (event) => {
           setMessage(data.message);
         } else {
           console.log({ data });
-          setUser(data);
+          props.setUser(data);
           localStorage.setItem("mood", data.mood);
-          history.push("/settings/news");
+          props.history.push("/settings/news");
         }
       });
     }
@@ -69,7 +67,7 @@ const handleSubmit = (event) => {
             <h4 className="m-4">Sign Up</h4>
             <Form
               className="auth-form d-flex flex-column align-items-center"
-              onSubmit={() => handleSubmit}
+              onSubmit={handleSubmit}
             >
               <FormGroup>
                 <FormInput

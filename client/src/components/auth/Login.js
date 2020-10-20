@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { useHistory } from "react-router-dom";
 import {
   Alert,
   Button,
@@ -15,8 +14,8 @@ import { Link } from "react-router-dom";
 import { login, loginFID } from "../../services/auth";
 import WebCam from "react-webcam";
 
-const Login = ({ setUser }) => {
-  const history = useHistory();
+const Login = (props) => {
+
   const webcamRef = useRef(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -25,7 +24,6 @@ const Login = ({ setUser }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     if (!showWebcam) {
       login(username, password)
         .then((data) => {
@@ -34,13 +32,14 @@ const Login = ({ setUser }) => {
             setPassword("");
             setMessage(data.message);
           } else {
-            setUser(data);
-            history.push("/moodcheck");
+            props.setUser(data);
+            props.history.push("/moodcheck");
           }
         })
         .catch((err) => console.log(err));
     } else {
       const loginImg = webcamRef.current.getScreenshot();
+      console.log('login pressed');
       loginFID(username, loginImg).then((data) => {
         if (data.message) {
           setUsername("");
@@ -48,9 +47,9 @@ const Login = ({ setUser }) => {
           setMessage(data.message);
         } else {
           console.log({ data });
-          setUser(data.user);
+          props.setUser(data.user);
           localStorage.setItem("mood", data.mood);
-          history.push("/moodboard");
+          props.history.push("/moodboard");
         }
       });
     }
@@ -63,7 +62,7 @@ const Login = ({ setUser }) => {
           <h4 className="m-4">Log In</h4>
           <Form
             className="auth-form d-flex flex-column align-items-center"
-            onSubmit={() => handleSubmit}
+            onSubmit={handleSubmit}
           >
             <FormGroup>
               <FormInput

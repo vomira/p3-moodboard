@@ -6,14 +6,16 @@ import {
   CardTitle
 } from "shards-react";
 
-export default function PhilosophyCard(props) {
+const PhilosophyCard = ({quote}) => {
   return (
     <Card className='my-2'>
       <CardHeader>Philosophy Quote</CardHeader>
       <CardBody>
-      <CardTitle>{props.quote.quote}</CardTitle>
-      <p>{props.quote.source}</p>
+      <CardTitle>{quote.quote}</CardTitle>
+      <p>{quote.source}</p>
       </CardBody>
     </Card>
   );
 }
+
+export default PhilosophyCard;

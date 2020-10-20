@@ -6,7 +6,6 @@ import JokeCard from "./content/JokeCard";
 import NewsCard from "./content/NewsCard";
 import PhilosophyCard from "./content/PhilosophyCard";
 import { Col, Container, Row } from "shards-react";
-import axios from "axios";
 import { shuffle } from "../services/shuffle";
 import { getContent, getNews } from "../services/getContent";
 import Loader from "../resources/loading.gif";

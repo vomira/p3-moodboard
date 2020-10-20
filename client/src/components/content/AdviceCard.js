@@ -6,13 +6,15 @@ import {
 
 } from "shards-react";
 
-export default function Advice(props) {
+const Advice = ({slip}) => {
   return (
     <Card className='my-2'>
       <CardHeader>Advice</CardHeader>
       <CardBody>
-        <p>{props.slip.advice}</p>
+        <p>{slip.advice}</p>
       </CardBody>
     </Card>
   );
 }
+
+export default Advice

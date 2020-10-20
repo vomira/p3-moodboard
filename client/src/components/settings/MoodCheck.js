@@ -1,42 +1,32 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+
 import { Button, Container, Form, FormCheckbox, Row } from "shards-react";
 
-export default class MoodCheck extends Component {
-  state = {
-    selectedMoods: []
-  };
+const MoodCheck = (props) => {
 
+  const [selectedMoods, setSelectedMoods] = useState([]);
 
-  handleChange = (event, score) => {
-    let name = event.target.id;
-    let selected = this.state.selectedMoods.some(el => el.name === name);
-    if(!selected) {
-      this.setState((state) => ({ selectedMoods: [...state.selectedMoods, {name, score}]}))
-    }
-    if(selected) {
-      this.setState((state) => ({ selectedMoods: [...state.selectedMoods.filter(el => el.name !== name)]}))
-    }
+  const handleChange = (event, score) => {
+    const name = event.target.id;
+    selectedMoods.some(el => el.name === name) ? setSelectedMoods([...selectedMoods.filter((el) => el.name !== name)]) : setSelectedMoods([...selectedMoods, {name, score}])
   }
 
 
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     let moodScore = 0;
-    this.state.selectedMoods.forEach(mood => moodScore += mood.score);
+    selectedMoods.forEach(mood => moodScore += mood.score);
     if(moodScore < 0) {
-      this.props.setMood('bad');
+      props.setMood('bad');
       window.localStorage.setItem('mood', 'bad');
     } else {
-      this.props.setMood('good');
+      props.setMood('good');
       window.localStorage.setItem('mood', 'good');
     }
     
-    this.props.history.push('/settings/news');
+    props.history.push('/settings/news');
   }
 
-  
-
-  render() {
     const moods = [
       { name: "Calm", id: 1, score: 1 },
       { name: "Angry", id: 2, score: -2 },
@@ -54,14 +44,14 @@ export default class MoodCheck extends Component {
     return (
       <Container>
         <h4>How are you feeling today?</h4>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={handleSubmit}>
         {moods.map((mood) => {
           return (
             <FormCheckbox inline
               key={mood.id}
               id={mood.name}
-              checked={this.state.selectedMoods.some((el => el.name === mood.name))}
-              onChange={(e) => this.handleChange(e, mood.score)}
+              checked={selectedMoods.some((el => el.name === mood.name))}
+              onChange={(e) => handleChange(e, mood.score)}
               className="m-2"
             >
               {mood.name}
@@ -75,5 +65,6 @@ export default class MoodCheck extends Component {
 
       </Container>
     );
-  }
 }
+
+export default MoodCheck;
