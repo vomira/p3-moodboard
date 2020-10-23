@@ -28,6 +28,9 @@ const NewsPreferences = (props) => {
         setNewsSources(allSources);
       })
       .catch((err) => console.log(err));
+
+    props.user.newsPreferences.length !== 0 && setSelectedNewsSources(props.user.newsPreferences);
+
   }, []);
 
   const handleChange = (event) => {

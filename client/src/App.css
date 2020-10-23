@@ -29,7 +29,18 @@ a, a:link, a:visited, a:hover {
   font-size: 15px
 }
 
-.nav
+.nav-container {
+  width: 90vw;
+}
+
+.nav-buttons {
+  width: 50vw;
+}
+
+.settings-link, .settings-link:visited, .settings-link.link, .settings-link:hover {
+  color: #9f95a1 !important
+}
+
 
 /* Homepage Styling */
 .hp-c {
@@ -50,7 +61,7 @@ a, a:link, a:visited, a:hover {
 }
 
 .logo-c {
-  height: 40%;
+  height: 50%;
   width: auto
 }
 
